@@ -6,3 +6,4 @@ coverage
 # ecdsa
 # paramiko
 # pycrypto
+flask_wtf

@@ -8,6 +8,13 @@ import logging
 from logging import Formatter, FileHandler
 from forms import *
 import os
+import boto3
+
+
+dbclient = boto3.resource("dynamodb")
+table = dbclient.Table("email_list")
+
+
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -56,9 +63,40 @@ def login():
     form = LoginForm(request.form)
     return render_template('forms/login.html', form=form)
 
-@app.route('/dashboard')
-def dashboard():
-    #form = LoginForm(request.form)
+# @app.route('/dashboard')
+# def dashboard():
+#     #form = LoginForm(request.form)
+#     return render_template('pages/dashboard.html')
+
+@app.route('/dashboard', methods =["GET", "POST"])
+def gfg():
+    if request.method == "POST":
+       
+       first_name = request.form.get("fname")
+       
+       last_name = request.form.get("lname")
+       email = request.form.get("email")
+       messageNumber = request.form.get("messageNumber")
+       
+       print("first name = ", first_name)
+       print("last name = ", last_name)
+       print("number of messages = ", messageNumber)
+       print("email = ", email)
+
+       Primary_Column_Name = "email"
+
+       response = table.put_item(
+            Item={
+                Primary_Column_Name: email,
+                "fname": first_name,
+                "lname": last_name,
+                "messageNumber": messageNumber,
+                })
+       print(response) 
+       print("SUCCESS!") 
+    else:
+        print("ERROR!")
+
     return render_template('pages/dashboard.html')
 
 @app.route("/submit/", methods=['POST'])

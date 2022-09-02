@@ -56,6 +56,16 @@ def login():
     form = LoginForm(request.form)
     return render_template('forms/login.html', form=form)
 
+@app.route('/dashboard')
+def dashboard():
+    #form = LoginForm(request.form)
+    return render_template('pages/dashboard.html')
+
+@app.route("/submit/", methods=['POST'])
+def move_forward():
+    #Moving forward code
+    forward_message = "Moving Forward..."
+    return render_template('pages/dashboard.html', forward_message=forward_message);
 
 @app.route('/register')
 def register():

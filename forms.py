@@ -24,7 +24,7 @@ class RegisterForm(Form):
 
 
 class LoginForm(Form):
-    name = StringField('Username', [DataRequired()])
+    name = StringField('Username!!!!!!!!!!!!!!!!!', [DataRequired()])
     password = PasswordField('Password', [DataRequired()])
 
 

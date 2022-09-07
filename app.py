@@ -2,14 +2,16 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, flash, url_for
 # from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from forms import *
 import os
 import boto3
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
+from boto3.dynamodb.conditions import Key, Attr
 
 dbclient = boto3.resource("dynamodb")
 table = dbclient.Table("email_list")
@@ -24,25 +26,19 @@ app = Flask(__name__)
 app.config.from_object('config')
 #db = SQLAlchemy(app)
 
-# Automatically tear down SQLAlchemy.
-'''
-@app.teardown_request
-def shutdown_session(exception=None):
-    db_session.remove()
-'''
+# Flask_Login Stuff
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
-# Login required decorator.
-'''
-def login_required(test):
-    @wraps(test)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return test(*args, **kwargs)
-        else:
-            flash('You need to login first.')
-            return redirect(url_for('login'))
-    return wrap
-'''
+@login_manager.user_loader
+def load_user(user_id):
+    # Query database
+    # return Users.query.get(int(user_id))
+    print("@login_manager.user_loader called")
+
+
+
 #----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
@@ -50,6 +46,7 @@ def login_required(test):
 
 @app.route('/')
 def home():
+    print("home page entereded!!")
     return render_template('pages/placeholder.home.html')
 
 
@@ -58,17 +55,37 @@ def about():
     return render_template('pages/placeholder.about.html')
 
 
-@app.route('/login')
+# Create Login Page
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!login function called")
     form = LoginForm(request.form)
-    return render_template('forms/login.html', form=form)
+    print("!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!!~!~!~!~!~!~login function still working")
+    return render_template("forms/login.html", form=form)
 
-# @app.route('/dashboard')
-# def dashboard():
-#     #form = LoginForm(request.form)
-#     return render_template('pages/dashboard.html')
+
+@app.route("/submit/", methods=['POST'])
+def move_forward():
+    
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MOVE FORWARD CALLED!!!")
+    forward_message = "Moving Forward..."
+    form = LoginForm(request.form)
+    if request.method=='POST':
+        print("login thing!!! in /submit/ ")
+   
+        
+        email = form.name.data
+        password = form.password.data
+
+        # if email and password match database: 
+   
+        print("email = ", email)
+        print("password = ", password)
+        return render_template('pages/dashboard.html', forward_message=forward_message);
+
 
 @app.route('/dashboard', methods =["GET", "POST"])
+@login_required
 def gfg():
     if request.method == "POST":
        
@@ -98,12 +115,7 @@ def gfg():
         print("ERROR!")
 
     return render_template('pages/dashboard.html')
-
-@app.route("/submit/", methods=['POST'])
-def move_forward():
-    #Moving forward code
-    forward_message = "Moving Forward..."
-    return render_template('pages/dashboard.html', forward_message=forward_message);
+  
 
 @app.route('/register')
 def register():
@@ -147,9 +159,3 @@ if not app.debug:
 if __name__ == '__main__':
     app.run()
 
-# Or specify port manually:
-'''
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-'''

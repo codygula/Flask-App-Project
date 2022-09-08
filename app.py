@@ -15,6 +15,7 @@ from boto3.dynamodb.conditions import Key, Attr
 
 dbclient = boto3.resource("dynamodb")
 table = dbclient.Table("email_list")
+TABLE_NAME = "email_list"
 
 
 
@@ -77,11 +78,29 @@ def move_forward():
         email = form.name.data
         password = form.password.data
 
-        # if email and password match database: 
-   
         print("email = ", email)
         print("password = ", password)
-        return render_template('pages/dashboard.html', forward_message=forward_message);
+
+        # Check if email and password match database: 
+        
+        response = table.get_item(
+            TableName=TABLE_NAME,
+            Key={
+                "email": email
+            })
+        dbemail = response['Item']['email']
+        dbpassword = response['Item']['passwordhash']
+        print("dbpassword = ",  dbpassword)
+        print(response['Item'])
+        
+        # Render dashboard if login successful and login screen again if not. This is somehow actually working.
+
+        if email == dbemail and password == dbpassword:
+            print("LOGIN SUCCESSFUL!!!")
+            return render_template('pages/dashboard.html', forward_message=forward_message);
+        else:
+            print("LOGIN ERROR!")
+            return render_template("forms/login.html", form=form)
 
 
 @app.route('/dashboard', methods =["GET", "POST"])
@@ -122,6 +141,39 @@ def register():
     form = RegisterForm(request.form)
     return render_template('forms/register.html', form=form)
 
+
+@app.route("/register/", methods=['POST'])
+def register_forward():
+    
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! /register/ CALLED!!!")
+    forward_message = "Moving Forward..."
+    form = RegisterForm(request.form)
+    if request.method=='POST':
+        print("register if statement in /register/!!!!! ")
+        
+        name = form.name.data
+        email = form.email.data
+        password = form.password.data
+        confirm = form.confirm.data
+
+        print("name = ", name)
+        print("email = ", email)
+        print("password = ", password)
+        print("confirm = ", confirm)
+
+        response = table.put_item(
+            Item={
+                "email": email,
+                "fname": name,
+                "password": password,
+                })
+        print(response) 
+        print("SUCCESS!") 
+
+        return render_template('pages/dashboard.html', forward_message=forward_message);
+
+        
+  
 
 @app.route('/forgot')
 def forgot():

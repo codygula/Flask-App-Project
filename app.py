@@ -142,7 +142,7 @@ def register():
     return render_template('forms/register.html', form=form)
 
 
-@app.route("/register/", methods=['POST'])
+@app.route("/registerSubmit/", methods=['POST'])
 def register_forward():
     
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! /register/ CALLED!!!")

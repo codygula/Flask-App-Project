@@ -149,7 +149,7 @@ def register_forward():
     forward_message = "Moving Forward..."
     form = RegisterForm(request.form)
     if request.method=='POST':
-        print("register if statement in /register/!!!!! ")
+        print("register if statement in /registerSubmit/!!!!! ")
         
         name = form.name.data
         email = form.email.data

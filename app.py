@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------------#
 # git test change!
 
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, make_response
 # from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
@@ -14,11 +14,12 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 
 from boto3.dynamodb.conditions import Key, Attr
 
+
+# {% extends 'layouts/main.html' %}
+
 dbclient = boto3.resource("dynamodb")
 table = dbclient.Table("email_list")
 TABLE_NAME = "email_list"
-
-
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -38,8 +39,6 @@ def load_user(user_id):
     # Query database
     # return Users.query.get(int(user_id))
     print("@login_manager.user_loader called")
-
-
 
 #----------------------------------------------------------------------------#
 # Controllers.
@@ -103,9 +102,22 @@ def move_forward():
             print("LOGIN ERROR!")
             return render_template("forms/login.html", form=form)
 
+# @app.route("/elements")
+# def elements():
+#     return render_template("elements.html")
+
+@app.route("/set")
+@app.route("/set/<theme>")
+def set_theme(theme="light"):
+    print("-------------------------------->   [[[[[  set_theme called  ]]]]]   <--------")
+    res = make_response(redirect("/dashboard"))
+    # res = make_response(redirect(url_for("dashboard")))
+    res.set_cookie("theme", theme)
+    return res
+# SameSite=None (?)
 
 @app.route('/dashboard', methods =["GET", "POST"])
-@login_required
+#@login_required
 def gfg():
     if request.method == "POST":
        
@@ -132,7 +144,7 @@ def gfg():
        print(response) 
        print("SUCCESS!") 
     else:
-        print("ERROR!")
+        print("gfg() /dashboard ERROR!")
 
     return render_template('pages/dashboard.html')
   
@@ -166,7 +178,7 @@ def register_forward():
             Item={
                 "email": email,
                 "fname": name,
-                "password": password,
+                "passwordhash": password,
                 })
         print(response) 
         print("SUCCESS!") 

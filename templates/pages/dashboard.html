@@ -2,6 +2,24 @@
 {% block title %}About{% endblock %}
 {% block content %}
 
+
+<head>
+  <link rel="stylesheet" href="/static/main.css">
+  {% if request.cookies.get("theme") %}
+  <link rel="stylesheet" href="/static/{{ request.cookies.get("theme") }}.css">
+  {% else %}
+  <link rel="stylesheet" href="/static/light.css">
+  {% endif %}
+</head>
+
+<h2>List of Themes</h2>
+
+<ul>
+  <li><a href="/set/light">Light (Default)</a></li>
+  <li><a href="/set/dark">Dark</a></li>
+</ul>
+
+
 <div class="page-header">
   <h1>dashboard page</h1>
 </div>

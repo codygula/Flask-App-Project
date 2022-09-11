@@ -8,29 +8,34 @@
 /*****************************************************************************
  * Main elements
  ****************************************************************************/
-html {
-  overflow-y: scroll;
-}
-a {
-  cursor: pointer;
-}
-::selection {
-  background: #555;
-  color: #FFF;
-}
-::-moz-selection {
-  background: #555;
-  color: #FFF;
-}
-::-webkit-selection {
-  background: #555;
-  color: #FFF;
-}
-/* Main elements end */
 
+ body {background-color: rgb(135, 255, 80);}
 
-/*****************************************************************************
- * Various other styles
- ****************************************************************************/
-
-/* Various other styles end */
+ html {
+   overflow-y: scroll;
+ }
+ a {
+   cursor: pointer;
+ }
+ ::selection {
+   background: #555;
+   color: #FFF;
+ }
+ ::-moz-selection {
+   background: #555;
+   color: #FFF;
+ }
+ ::-webkit-selection {
+   background: #555;
+   color: #FFF;
+ } */
+ /* Main elements end
+ 
+ 
+ /*****************************************************************************
+  * Various other styles
+  ****************************************************************************/
+ 
+ /* Various other styles end */
+ 
+ 

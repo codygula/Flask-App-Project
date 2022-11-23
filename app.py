@@ -1,9 +1,9 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
-# git test change!
+# THIS WORKS !!! When saved as app.py
 
-from flask import Flask, render_template, request, redirect, flash, url_for, make_response
+from flask import Flask, render_template, request, redirect, flash, url_for, make_response, session
 # from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
@@ -67,7 +67,6 @@ def login():
 
 @app.route("/submit/", methods=['POST'])
 def move_forward():
-    
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MOVE FORWARD CALLED!!!")
     forward_message = "Moving Forward..."
     form = LoginForm(request.form)
@@ -77,7 +76,7 @@ def move_forward():
         
         email = form.name.data
         password = form.password.data
-
+        session['email_thing'] = email
         print("email = ", email)
         print("password = ", password)
 
@@ -97,7 +96,7 @@ def move_forward():
 
         if email == dbemail and password == dbpassword:
             print("LOGIN SUCCESSFUL!!!")
-            return render_template('pages/dashboard.html', forward_message=forward_message);
+            return render_template('pages/dashboard.html',utc_dt="testing")#, forward_message=forward_message);
         else:
             print("LOGIN ERROR!")
             return render_template("forms/login.html", form=form)
@@ -119,27 +118,29 @@ def set_theme(theme="light"):
 @app.route('/dashboard', methods =["GET", "POST"])
 #@login_required
 def gfg():
+    email = session.get('email_thing', None)
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ",email)
     if request.method == "POST":
+       email = session.get('email_thing', None)
+       print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ",email)
+       site = request.form.get("site")
+       searchterm = request.form.get("searchterm")
+       # email = request.form.get("email")
+       #messageNumber = request.form.get("messageNumber")
        
-       first_name = request.form.get("fname")
-       
-       last_name = request.form.get("lname")
-       email = request.form.get("email")
-       messageNumber = request.form.get("messageNumber")
-       
-       print("first name = ", first_name)
-       print("last name = ", last_name)
-       print("number of messages = ", messageNumber)
-       print("email = ", email)
+       print("site = ", site)
+       print("searchterm = ", searchterm)
+       #print("number of messages = ", messageNumber)
+       #print("email = ", email)
 
        Primary_Column_Name = "email"
 
        response = table.put_item(
             Item={
                 Primary_Column_Name: email,
-                "fname": first_name,
-                "lname": last_name,
-                "messageNumber": messageNumber,
+                "siteURL": site,
+                "searchterm": searchterm,
+                "NOVEMBER_test_item": "testing!!!!!!",
                 })
        print(response) 
        print("SUCCESS!") 

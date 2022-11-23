@@ -9,7 +9,7 @@
  * Main elements
  ****************************************************************************/
 
- body {background-color: rgb(135, 255, 80);}
+ body {background-color: rgb(227, 255, 214);}
 
  html {
    overflow-y: scroll;
@@ -28,7 +28,7 @@
  ::-webkit-selection {
    background: #555;
    color: #FFF;
- } */
+ }
  /* Main elements end
  
  
@@ -37,5 +37,3 @@
   ****************************************************************************/
  
  /* Various other styles end */
- 
- 

@@ -89,6 +89,13 @@ def move_forward():
             })
         dbemail = response['Item']['email']
         dbpassword = response['Item']['passwordhash']
+        
+# TODO: Make dbSearchTerm an array of all search terms and urls from the database for that username. (Read AWS API docs?) It should work in that case.
+#  
+        try:
+            dbSearchTerm = response['Item']['searchterm']
+        except:
+            dbSearchTerm = "none"
         print("dbpassword = ",  dbpassword)
         print(response['Item'])
         
@@ -96,7 +103,7 @@ def move_forward():
 
         if email == dbemail and password == dbpassword:
             print("LOGIN SUCCESSFUL!!!")
-            return render_template('pages/dashboard.html',utc_dt="testing")#, forward_message=forward_message);
+            return render_template('pages/dashboard.html',utc_dt="testing", emailAddress=email, data=dbSearchTerm, len=len(dbSearchTerm))
         else:
             print("LOGIN ERROR!")
             return render_template("forms/login.html", form=form)

@@ -1,13 +1,25 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-
-
 ## Welcome
 
+Hello. Want to get started with Flask quickly? Good. You came to the right place. This Flask application framework is pre-configured with **Flask-SQLAlchemy**, **Flask-WTF**, **Fabric**, **Coverage**, and the **Bootstrap** frontend (among others). This will get your Flask app up and running on Heroku or PythonAnywhere quickly. Use this starter, boilerplate for all you new Flask projects. Cheers!
 
-Original boilerplate Stolen from Real Python
+<hr>
 
-Original structure
+![real-python-logo](https://raw.githubusercontent.com/realpython/about/master/rp_small.png)
+
+**Designed for the [Real Python](http://www.realpython.com) course.**
+
+<hr>
+
+Preview the skeleton app here - [http://www.flaskboilerplate.com/](http://www.flaskboilerplate.com/)
+
+**EXAMPLE APP: [http://flasktaskr.herokuapp.com/](http://flasktaskr.herokuapp.com/)**
+
+**What is Flask?** Flask is a microframework for Python based on Werkzeug and Jinja2.
+
+Project Structure
+--------
 
   ```sh
   ├── Procfile
@@ -66,7 +78,15 @@ Original structure
           ├── placeholder.about.html
           └── placeholder.home.html
   ```
-# This part doesn't entirely work in practice
+
+### Screenshots
+
+![Pages](https://github.com/realpython/flask-boilerplate/blob/master/screenshots/pages.png)
+
+![Forms](https://github.com/realpython/flask-boilerplate/blob/master/screenshots/forms.png)
+
+
+### Quick Start
 
 1. Clone the repo
   ```
@@ -92,7 +112,6 @@ Original structure
 
 6. Navigate to [http://localhost:5000](http://localhost:5000)
 
-# I haven't tried this part but I'm saving it for possible future use.
 
 Deploying to Heroku
 ------
@@ -154,8 +173,6 @@ Deploying to Heroku
   ```
   $ heroku logs
   ```
-
-# There's no way in hell this will work
 
 ### Deploying to PythonAnywhere
 
@@ -247,6 +264,14 @@ Once the web app has been created (it'll take 20 seconds or so), you'll see a li
 9. Click the green "Add key" button.  You'll be prompted to enter your password.
 
 PUSH and PULL away!
+
+### What's next?
+
+1. Using Heroku? Make sure you deactivate your virtualenv once you're done deploying: `deactivate`
+2. Need to reactivate? (1) Unix - `source venv/bin/activate` (2) Windows - `venv\scripts\activate`
+4. Add your Google Analytics ID to the *main.html* file
+5. Add a domain name to [Heroku](https://devcenter.heroku.com/articles/custom-domains) or PythonAnywhere via a [CNAME](http://en.wikipedia.org/wiki/CNAME_record) record
+5. DEVELOP YOUR APP - need [help](http://realpython.com)?
 
 ### Learn More
 
